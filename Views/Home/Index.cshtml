@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="http://maps.google.com/maps/api/js"></script>
+
+<h2>Index</h2>
+<script >
+    jQuery.ajax({
+        url: '//freegeoip.net/json/',
+        type: 'POST',
+        dataType: 'jsonp',
+        success: function (location) {
+            // example where I update content on the page.
+            jQuery('#city').text(location.city);
+            jQuery('#region-code').html(location.region_code);
+            jQuery('#region-name').html(location.region_name);
+            jQuery('#areacode').html(location.areacode);
+            jQuery('#ip').html(location.ip);
+            jQuery('#zipcode').html(location.zipcode);
+            jQuery('#longitude').html(location.longitude);
+            jQuery('#latitude').html(location.latitude);
+            jQuery('#country-name').html(location.country_name);
+            jQuery('#country-code').html(location.country_code);
+            var geocoder = new google.maps.Geocoder();
+            var latLng = new google.maps.LatLng(location.latitude, location.longitude);
+
+            if (geocoder) {
+                geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        console.log(results[0].formatted_address);
+                        $('#address').html('Address:' + results[0].formatted_address);
+                    }
+                    else {
+                        $('#address').html('Geocoding failed: ' + status);
+                        console.log("Geocoding failed: " + status);
+                    }
+                }); //geocoder.geocode()
+            }
+        }
+    });
+</script>
+<div id="city">
+
+</div>
+<div id="ip">
+
+</div>
+<div id="region-code">
+
+</div>
+<div id="region-name">
+
+</div>
+<div id="country-code">
+
+</div>
+<div id="country-name">
+
+</div>
+<div id="zipcode">
+
+</div>
+<div id="areacode">
+
+</div>
+<div id="longitude">
+
+</div>
+<div id="latitude">
+
+</div>
+<div id="address">
+
+</div>
